@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "Visitor Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": {
+                "username": "admin",
+                "password": "admin123"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Visitors",
+      "item": [
+        {
+          "name": "Register Visitor",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/visitors/register",
+            "body": {
+              "mode": "raw",
+              "raw": {
+                "name": "John Doe",
+                "mobile": "1234567890",
+                "govt_id": "ABC123",
+                "purpose": "Meeting"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Security",
+      "item": [
+        {
+          "name": "Get All Visitors",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/security/visitors",
+            "headers": {
+              "Authorization": "Bearer {{token}}"
+            }
+          }
+        },
+        {
+          "name": "Check-in Visitor",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/security/checkin",
+            "headers": {
+              "Authorization": "Bearer {{token}}"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": {
+                "visitorId": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "Check-out Visitor",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/security/checkout",
+            "headers": {
+              "Authorization": "Bearer {{token}}"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": {
+                "visitorId": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get All Visitors",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/admin/visitors",
+            "headers": {
+              "Authorization": "Bearer {{token}}"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+/* Common styles */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Login styles */
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Visitor Form styles */
+.visitor-form-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.qr-container {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.qr-code {
+    max-width: 200px;
+    height: auto;
+}
+
+/* Admin Dashboard styles */
+.admin-dashboard {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Responsive table */
+.table-responsive {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .login-container,
+    .visitor-form-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px;
+        font-size: 14px;
+    }
+} 

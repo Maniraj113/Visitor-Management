@@ -1,0 +1,39 @@
+visitor-management/
+├── client/                 # React frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── context/
+│   │   └── utils/
+├── server/                 # Node.js backend
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   └── database/
+└── README.md client/
+├── public/
+│   ├── index.html
+├── src/
+│   ├── components/
+│   │   ├── Navbar.js
+│   │   ├── VisitorForm.js
+│   │   ├── AdminDashboard.js
+│   │   ├── SecurityDashboard.js
+│   │   ├── QRCodeScanner.js
+│   │   ├── Login.js
+│   │   ├── ProtectedRoute.js
+│   ├── context/
+│   │   ├── AuthContext.js
+│   ├── styles/
+│   │   ├── App.css
+│   │   ├── Navbar.css
+│   │   ├── VisitorForm.css
+│   │   ├── AdminDashboard.css
+│   │   ├── SecurityDashboard.css
+│   │   ├── QRCodeScanner.css
+│   │   ├── Login.css
+│   ├── App.js
+│   ├── index.js
+├── package.json
