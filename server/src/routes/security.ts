@@ -16,12 +16,12 @@ router.get('/visitors', (req, res) => {
 
 // Check-in visitor
 router.post('/checkin', (req, res) => {
-    const { visitorId } = req.body;
+    const { visitor_id } = req.body;
     const checkInTime = new Date().toISOString();
 
     db.run(
         'UPDATE visitors SET check_in = ? WHERE id = ?',
-        [checkInTime, visitorId],
+        [checkInTime, visitor_id],
         function(err: Error | null) {
             if (err) {
                 return res.status(500).json({ error: err.message });
@@ -33,12 +33,12 @@ router.post('/checkin', (req, res) => {
 
 // Check-out visitor
 router.post('/checkout', (req, res) => {
-    const { visitorId } = req.body;
+    const { visitor_id } = req.body;
     const checkOutTime = new Date().toISOString();
 
     db.run(
         'UPDATE visitors SET check_out = ? WHERE id = ?',
-        [checkOutTime, visitorId],
+        [checkOutTime, visitor_id],
         function(err: Error | null) {
             if (err) {
                 return res.status(500).json({ error: err.message });

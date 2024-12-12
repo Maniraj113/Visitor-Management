@@ -82,22 +82,28 @@ const SecurityDashboard: React.FC = () => {
         if (processing) return;
         setProcessing(true);
         try {
-            await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/security/check-in`,
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/security/checkin`,
                 { visitor_id: visitorId },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
                     }
                 }
             );
-            toast.success('Visitor checked in successfully!', {
-                position: "top-right",
-                autoClose: 3000
-            });
-            await fetchVisitors();
-        } catch (error) {
-            toast.error('Failed to check in visitor. Please try again.', {
+
+            if (response.status === 200) {
+                toast.success('Visitor checked in successfully!', {
+                    position: "top-right",
+                    autoClose: 3000
+                });
+                await fetchVisitors(); // Refresh the list
+            } else {
+                throw new Error('Check-in failed');
+            }
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || 'Failed to check in visitor. Please try again.', {
                 position: "top-right",
                 autoClose: 3000
             });
@@ -110,22 +116,28 @@ const SecurityDashboard: React.FC = () => {
         if (processing) return;
         setProcessing(true);
         try {
-            await axios.post(
-                `${process.env.REACT_APP_API_URL}/api/security/check-out`,
+            const response = await axios.post(
+                `${process.env.REACT_APP_API_URL}/api/security/checkout`,
                 { visitor_id: visitorId },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
                     }
                 }
             );
-            toast.success('Visitor checked out successfully!', {
-                position: "top-right",
-                autoClose: 3000
-            });
-            await fetchVisitors();
-        } catch (error) {
-            toast.error('Failed to check out visitor. Please try again.', {
+
+            if (response.status === 200) {
+                toast.success('Visitor checked out successfully!', {
+                    position: "top-right",
+                    autoClose: 3000
+                });
+                await fetchVisitors(); // Refresh the list
+            } else {
+                throw new Error('Check-out failed');
+            }
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || 'Failed to check out visitor. Please try again.', {
                 position: "top-right",
                 autoClose: 3000
             });

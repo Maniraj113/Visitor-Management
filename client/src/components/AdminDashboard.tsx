@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 interface Visitor {
@@ -26,13 +28,21 @@ const AdminDashboard: React.FC = () => {
                 `${process.env.REACT_APP_API_URL}/api/admin/visitors`,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
                     }
                 }
             );
-            setVisitors(response.data);
-        } catch (error) {
-            alert('Error fetching visitors');
+            if (response.status === 200) {
+                setVisitors(response.data);
+            } else {
+                throw new Error('Failed to fetch visitors');
+            }
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || 'Error fetching visitors', {
+                position: "top-right",
+                autoClose: 3000
+            });
         } finally {
             setLoading(false);
         }
@@ -45,19 +55,32 @@ const AdminDashboard: React.FC = () => {
                 {
                     responseType: 'blob',
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
                     }
                 }
             );
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `visitors_${new Date().toISOString().split('T')[0]}.xlsx`);
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-        } catch (error) {
-            alert('Error exporting data');
+            
+            if (response.status === 200) {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `visitors_${new Date().toISOString().split('T')[0]}.xlsx`);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                toast.success('Export successful!', {
+                    position: "top-right",
+                    autoClose: 3000
+                });
+            } else {
+                throw new Error('Export failed');
+            }
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || 'Error exporting data', {
+                position: "top-right",
+                autoClose: 3000
+            });
         }
     };
 

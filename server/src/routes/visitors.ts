@@ -47,10 +47,8 @@ router.post('/register', async (req, res) => {
 
                 // Insert new visitor
                 db.run(
-                    `
-                    INSERT INTO visitors (name, mobile, govt_id, purpose, qr_code)
-                    VALUES (?, ?, ?, ?, ?)
-                `,
+                    `INSERT INTO visitors (name, mobile, govt_id, purpose, qr_code)
+                    VALUES (?, ?, ?, ?, ?)`,
                     [name, mobile, govt_id, purpose, qr_code],
                     function(err: Error | null) {
                         if (err) {
