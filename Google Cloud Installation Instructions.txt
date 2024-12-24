@@ -1,0 +1,37 @@
+
+# Check current project
+gcloud config get-value project
+
+# If no project is set, set it
+gcloud projects create visitor-mgmt-2024
+ 
+
+# Enable Cloud Build API
+gcloud services enable cloudbuild.googleapis.com
+
+# Enable Container Registry API
+gcloud services enable containerregistry.googleapis.com
+
+# Enable Cloud Run API
+gcloud services enable run.googleapis.com
+
+# Make sure you're in the project root directory
+gcloud builds submit --config cloudbuild.yaml
+
+# List services
+gcloud run services list
+
+
+# Clean up any failed deployments
+gcloud run services delete visitor-client --region us-central1 --quiet
+gcloud run services delete visitor-server --region us-central1 --quiet
+
+#Set IAM Permissions:
+ gcloud run services add-iam-policy-binding --region=asia-south1 --member=allUsers --role=roles/run.invoker visitor-server
+ gcloud run services add-iam-policy-binding --region=asia-south1 --member=allUsers --role=roles/run.invoker visitor-client
+  
+  
+  gcloud run services add-iam-policy-binding visitor-server \
+    --region=asia-south1 \
+    --member=allUsers \
+    --role=roles/run.invoker

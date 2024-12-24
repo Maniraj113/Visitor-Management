@@ -1,0 +1,67 @@
+# Create cloudbuild.yaml in root directory
+steps:
+  # Build client
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/visitor-client', './client']
+    env:
+      - 'PORT=8080'
+      - 'HOST=0.0.0.0'
+  
+  # Build server
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/visitor-server', './server']
+  
+  # Push images
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/visitor-client']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/visitor-server']
+  
+  # Deploy server first
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'visitor-server'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/visitor-server'
+      - '--region'
+      - 'asia-south1'
+      - '--platform'
+      - 'managed'
+      - '--port'
+      - '8080'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'JWT_SECRET=visitor_management_secret_key_2024,DB_PATH=/app/database/visitor.db,CORS_ORIGIN=https://visitor-client-968053831621.asia-south1.run.app'
+      - '--memory'
+      - '512Mi'
+      - '--timeout'
+      - '300s'
+  
+  # Deploy client with debug options
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'visitor-client'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/visitor-client'
+      - '--region'
+      - 'asia-south1'
+      - '--platform'
+      - 'managed'
+      - '--port'
+      - '8080'
+      - '--allow-unauthenticated'
+      - '--memory'
+      - '256Mi'
+      - '--timeout'
+      - '300s'
+      - '--set-env-vars'
+      - 'DEBUG=true'
+      - '--command'
+      - '/docker-entrypoint.sh'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

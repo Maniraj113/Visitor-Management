@@ -1,5 +1,6 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
+import fs from 'fs';
 
 // Type definitions
 export interface Visitor {
@@ -26,6 +27,12 @@ export interface User {
 const dbPath = process.env.DB_PATH || path.resolve(__dirname, '../../database/visitor.db');
 console.log('Database path:', dbPath);
 
+// Ensure database directory exists
+const dbDir = path.dirname(dbPath);
+if (!fs.existsSync(dbDir)) {
+    fs.mkdirSync(dbDir, { recursive: true });
+}
+
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error connecting to database:', err);
@@ -33,6 +40,8 @@ const db = new sqlite3.Database(dbPath, (err) => {
         console.log('Connected to SQLite database');
         createTables().then(() => {
             insertDefaultUsers();
+        }).catch(err => {
+            console.error('Error initializing database:', err);
         });
     }
 });

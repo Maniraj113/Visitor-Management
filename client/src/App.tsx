@@ -5,6 +5,7 @@ import VisitorForm from './components/VisitorForm';
 import AdminDashboard from './components/AdminDashboard';
 import Navbar from './components/Navbar';
 import SecurityDashboard from './components/SecurityDashboard';
+import ParentRegistration from './components/ParentRegistration';
 
 const App: React.FC = () => {
     return (
@@ -31,6 +32,7 @@ const App: React.FC = () => {
                         </>
                     </ProtectedRoute>
                 } />
+                <Route path="/parent-registration" element={<ParentRegistration />} />
                 
                 {/* Redirect root to appropriate page */}
                 <Route path="/" element={
